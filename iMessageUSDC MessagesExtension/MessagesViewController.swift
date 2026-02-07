@@ -9,10 +9,28 @@ import UIKit
 import Messages
 
 class MessagesViewController: MSMessagesAppViewController {
+    private var rootNavigationController: UINavigationController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        configureRootUI()
+    }
+    
+    private func configureRootUI() {
+        let walletViewController = CreateWalletViewController()
+        let navigationController = UINavigationController(rootViewController: walletViewController)
+        
+        emded(navigationController)
+        rootNavigationController = navigationController
+    }
+    
+    private func emded(_ child: UIViewController) {
+        addChild(child)
+        child.view.frame = view.bounds
+        child.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(child.view)
+        child.didMove(toParent: self)
     }
     
     // MARK: - Conversation Handling
@@ -22,6 +40,7 @@ class MessagesViewController: MSMessagesAppViewController {
         // This will happen when the extension is about to present UI.
         
         // Use this method to configure the extension and restore previously stored state.
+        requestPresentationStyle(MSMessagesAppPresentationStyle.compact)
     }
     
     override func didResignActive(with conversation: MSConversation) {
