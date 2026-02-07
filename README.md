@@ -14,6 +14,16 @@ iMessageUSDC is an iMessage widget that allows you to send USDC cryptocurrency p
 - **Fast**: Near-instant transactions on supported networks
 - **Simple**: Send payments with just a few taps
 
+## Techinical Details
+
+iMessage apps can:
+
+- Present a custom user interface inside the Messages app; see [MSMessagesAppViewController](https://developer.apple.com/documentation/messages/msmessagesappviewcontroller).
+- Create a custom or dynamic sticker browser; see [MSStickerBrowserViewController](https://developer.apple.com/documentation/messages/msstickerbrowserviewcontroller).
+- Insert text, stickers, or media files into the Messages app’s input field; see [MSConversation](https://developer.apple.com/documentation/messages/msconversation).
+- Create interactive messages that carry app-specific data; see MSMessage.
+- Update interactive messages (for example, to create games or collaborative apps); see [MSSession](https://developer.apple.com/documentation/messages/msmessage).
+
 ## Requirements
 
 - iOS 17.0 or later
