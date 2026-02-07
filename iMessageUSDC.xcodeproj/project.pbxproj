@@ -43,6 +43,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		994A27BF2F373573005A1A08 /* Exceptions for "Assets" folder in "iMessageUSDC" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"usdc-3D-token.png",
+			);
+			target = 9982F53F2F36C2A600F06A40 /* iMessageUSDC */;
+		};
+		994A27C02F373573005A1A08 /* Exceptions for "Assets" folder in "iMessageUSDCPreview" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"usdc-3D-token.png",
+			);
+			target = 9982F59E2F36FBF700F06A40 /* iMessageUSDCPreview */;
+		};
 		9982F5592F36C2A800F06A40 /* Exceptions for "iMessageUSDC MessagesExtension" folder in "iMessageUSDC MessagesExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -61,6 +75,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CreateWalletViewController.swift,
+				OldWalletView.swift,
 				PrivyAuthViewController.swift,
 				UIKitPreview.swift,
 			);
@@ -69,6 +84,15 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		994A27BA2F373540005A1A08 /* Assets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				994A27BF2F373573005A1A08 /* Exceptions for "Assets" folder in "iMessageUSDC" target */,
+				994A27C02F373573005A1A08 /* Exceptions for "Assets" folder in "iMessageUSDCPreview" target */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		9982F5422F36C2A600F06A40 /* iMessageUSDC */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = iMessageUSDC;
@@ -120,6 +144,7 @@
 		9982F5392F36C2A600F06A40 = {
 			isa = PBXGroup;
 			children = (
+				994A27BA2F373540005A1A08 /* Assets */,
 				9982F5422F36C2A600F06A40 /* iMessageUSDC */,
 				9982F5502F36C2A700F06A40 /* iMessageUSDC MessagesExtension */,
 				9982F5A02F36FBF700F06A40 /* iMessageUSDCPreview */,
@@ -185,6 +210,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				994A27BA2F373540005A1A08 /* Assets */,
 				9982F5502F36C2A700F06A40 /* iMessageUSDC MessagesExtension */,
 				9982F5B02F36FE4700F06A40 /* SharedUI */,
 			);

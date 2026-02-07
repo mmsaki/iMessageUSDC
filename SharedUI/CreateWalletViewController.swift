@@ -5,86 +5,87 @@
 //  Created by Meek Msaki on 2/6/26.
 //
 
-import UIKit
-
-final class CreateWalletViewController: UIViewController {
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Create Wallet"
-        label.font = .systemFont(ofSize: 24, weight: .bold)
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private let subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Create a new wallet to store your USDC."
-        label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private let createWalletButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Create Wallet", for: .normal)
-        return button
-    }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        title = "Create Wallet"
-        setupUI()
-    }
-    
-    private func setupUI() {
-        titleLabel.text = "Create a Wallet"
-        titleLabel.font = .systemFont(ofSize: 24, weight: .bold)
-        titleLabel.textAlignment = .center
-        
-        subtitleLabel.text = "Create a new wallet to store your USDC."
-        subtitleLabel.font = .systemFont(ofSize: 16, weight: .regular)
-        subtitleLabel.textColor = .secondaryLabel
-        subtitleLabel.textAlignment = .center
-        subtitleLabel.numberOfLines = 0
-        
-        createWalletButton.setTitle("Create Wallet", for: .normal)
-        createWalletButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        createWalletButton.configuration = .filled()
-        createWalletButton.addTarget(self, action: #selector(createWalletButtonTapped), for: .touchUpInside)
-        
-        let stack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel, createWalletButton])
-        
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .vertical
-        stack.spacing = 24
-        
-        view.addSubview(stack)
-        
-        NSLayoutConstraint.activate([
-            stack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
-        ])
-    }
-    
-    @objc
-    private func createWalletButtonTapped() {
-        let vc = PrivyAuthViewController()
-        navigationController?.pushViewController(vc, animated: true)
-    }
-}
-
-
-#if DEBUG
 import SwiftUI
-struct CreateWalletViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        UIKitPreview {
-            UINavigationController(rootViewController: CreateWalletViewController() )
+
+struct CreateWalletView: View {
+    @State private var amount: String = ""
+    
+    var body: some View {
+        VStack(spacing: 24) {
+            HStack(spacing: 16) {
+                TokenButton(title: "USDC")
+                Spacer()
+                WalletButton()
+            }
+            Spacer()
+            
+            HStack(spacing: 6) {
+                Text("$")
+                    .font(.system(size: 56,weight: .bold))
+                
+                TextField("", text: $amount)
+                    .keyboardType(.decimalPad)
+                    .font(.system(size: 56, weight: .bold))
+                    .multilineTextAlignment(.center)
+            }
+            Spacer()
+            
+            HStack(spacing: 16) {
+                ActionButton(title: "Request", style: .tinted)
+                ActionButton(title: "Send", style: .filled)
+            }
         }
-        .edgesIgnoringSafeArea(.all)
-        .previewDevice("iPhone 17 Pro")
     }
 }
-#endif
+
+struct TokenButton: View {
+    let title: String
+    var body: some View {
+        Text(title)
+            .font(.system(size: 20, weight: .bold, design: .default))
+            .padding(.horizontal, 12)
+    }
+}
+
+struct WalletButton: View {
+    
+    var body: some View {
+        Image(systemName: "wallet.pass")
+            .font(.system(size: 18, weight: .bold))
+            .frame(width: 36, height: 36)
+            .background(.ultraThinMaterial)
+            .clipShape(Circle())
+    }
+    
+}
+
+enum ActionStyle {
+    case filled, tinted
+}
+
+struct ActionButton: View {
+    let title: String
+    let style: ActionStyle
+    var body: some View {
+        Button(action: {}) {
+            Text(title)
+                .font(.system(size: 22, weight: .bold))
+                .padding(18)
+                .background(background)
+                .clipShape(Capsule())
+        }
+    }
+    @ViewBuilder
+    private var background: some View {
+        switch style {
+            case .filled:
+            Color.accentColor.font(.body)
+            case .tinted:
+            Color.accentColor.opacity(0.15)
+        }
+    }
+}
+
+#Preview {
+    CreateWalletView()
+}

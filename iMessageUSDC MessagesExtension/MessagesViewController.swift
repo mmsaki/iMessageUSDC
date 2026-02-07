@@ -18,7 +18,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func configureRootUI() {
-        let walletViewController = CreateWalletViewController()
+        let walletViewController = OldWalletViewController()
         let navigationController = UINavigationController(rootViewController: walletViewController)
         
         emded(navigationController)

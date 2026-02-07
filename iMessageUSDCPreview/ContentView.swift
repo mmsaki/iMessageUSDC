@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         UIKitPreview {
-            UINavigationController(rootViewController: CreateWalletViewController())
+            UINavigationController(rootViewController: OldWalletViewController())
         }
         .edgesIgnoringSafeArea(.all)
         UIKitPreview {
