@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Messages
 
 final class OldWalletViewController: UIViewController {
     // MARK: - Top controls
@@ -67,6 +68,17 @@ final class OldWalletViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Multi-Step share state
+    private struct ShareSession {
+        var amount: Double?
+        var recipientENS: String?
+        var chain: String?
+    }
+    
+    private var currenShareSession = ShareSession()
+    private var messageSession: MSSession? // for interactive messages
+    var conversation: MSConversation?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -75,6 +87,8 @@ final class OldWalletViewController: UIViewController {
         createWalletButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         createWalletButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         createWalletButton.addTarget(self, action: #selector(createWalletButtonTapped), for: .touchUpInside)
+        
+        sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         setupUI()
     }
     
@@ -120,11 +134,54 @@ final class OldWalletViewController: UIViewController {
         let vc = PrivyAuthViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
+    @objc
+    private func sendButtonTapped() {
+        guard let amountText = amountTextField.text,
+              let amount = Double(amountText) else {
+            showAlert("Enter a valid amount")
+            return
+        }
+        currenShareSession.amount = amount
+        guard let conversation = conversation else {
+            showAlert("No active conversation found")
+            return
+        }
+        
+        if messageSession == nil {messageSession = MSSession()}
+        let message = MSMessage(session: messageSession!)
+        var components = URLComponents()
+        components.scheme = "msaki"
+        components.host = "share"
+        components.queryItems = [
+            URLQueryItem(name: "amount", value: "\(currenShareSession.amount ?? 0)")
+        ]
+        message.url = components.url
+        
+        let layout = MSMessageTemplateLayout()
+        
+        layout.caption = "You've received a USDC Share"
+        layout.subcaption = "Tap to enter your recipient info"
+        // layout.image = UIImage(named: "usdc-3D-token")
+        message.layout = layout
+        conversation.insert(message) { error in
+            if let error = error {
+                print("Error sending: \(error)")
+            }
+        }
+        amountTextField.text = ""
+        currenShareSession = ShareSession()
+    }
+    private func showAlert(_ message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
 }
 
 
 #if DEBUG
 import SwiftUI
+import Messages
 struct CreateWalletViewController_Previews: PreviewProvider {
     static var previews: some View {
         UIKitPreview {

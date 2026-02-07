@@ -35,11 +35,21 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - Conversation Handling
     
+    private var walletVC: OldWalletViewController!
+    
     override func willBecomeActive(with conversation: MSConversation) {
         // Called when the extension is about to move from the inactive to active state.
         // This will happen when the extension is about to present UI.
         
         // Use this method to configure the extension and restore previously stored state.
+        super.willBecomeActive(with: conversation)
+        walletVC = OldWalletViewController()
+        walletVC.conversation = conversation
+        
+        addChild(walletVC)
+        view.addSubview(walletVC.view)
+        walletVC.view.frame = view.bounds
+        walletVC.didMove(toParent: self)
         requestPresentationStyle(MSMessagesAppPresentationStyle.compact)
     }
     
