@@ -33,7 +33,7 @@ final class CreateWalletViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = "iWallet"
+        title = "Create Wallet"
         setupUI()
     }
     
@@ -70,16 +70,21 @@ final class CreateWalletViewController: UIViewController {
     
     @objc
     private func createWalletButtonTapped() {
-        gennerateWallet()
-    }
-
-    private func gennerateWallet() {
-        let entropy = UUID().uuidString
-        let alert = UIAlertController(title: "Wallet Created", message: "Entropy: \n\(entropy)", preferredStyle: .alert)
+        let vc = PrivyAuthViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 
-#Preview {
-    CreateWalletViewController()
+#if DEBUG
+import SwiftUI
+struct CreateWalletViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        UIKitPreview {
+            UINavigationController(rootViewController: CreateWalletViewController() )
+        }
+        .edgesIgnoringSafeArea(.all)
+        .previewDevice("iPhone 17 Pro")
+    }
 }
+#endif
