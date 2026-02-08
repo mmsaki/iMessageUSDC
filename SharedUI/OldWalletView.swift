@@ -161,7 +161,6 @@ final class OldWalletViewController: UIViewController {
         
         layout.caption = "You've received a USDC Share"
         layout.subcaption = "Tap to enter your recipient info"
-        // layout.image = UIImage(named: "usdc-3D-token")
         message.layout = layout
         conversation.insert(message) { error in
             if let error = error {
