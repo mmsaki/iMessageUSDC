@@ -1,3 +1,5 @@
+![](./screenshot.png)
+
 # iMessageUSDC
 
 The easiest way to send USDC payments from your iPhone via iMessage.
