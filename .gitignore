@@ -1,0 +1,102 @@
+# Xcode
+xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xccheckout
+*.xcscmblueprint
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Build products
+build/
+Build/
+
+# Swift Package Manager (for local packages)
+.swiftpm/
+.build/
+Packages/
+# Don't ignore EthereumKit itself since it's part of the monorepo
+!EthereumKit/
+
+# CocoaPods (if you use it)
+Pods/
+*.xcworkspace
+!default.xcworkspace
+Podfile.lock
+
+# Carthage (if you use it)
+Carthage/Build/
+Carthage/Checkouts/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+fastlane/README.md
+
+# Code Injection
+iOSInjectionProject/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Swift
+*.swiftdoc
+*.swiftmodule
+*.swiftsourceinfo
+
+# Secrets & Config (IMPORTANT!)
+Config.xcconfig
+Secrets.plist
+*.pem
+*.p12
+*.mobileprovision
+.env
+.env.local
+
+# API Keys (never commit these!)
+**/APIKeys.swift
+**/Secrets.swift
+
+# Temporary files
+*~
+.*.swp
+.*.swo
+
+# Testing
+*.gcov
+*.gcda
+*.gcno
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Documentation
+docs/build/
+
+# App Store metadata
+iTunesArtwork
+iTunesArtwork@2x
+
+# Backup files
+*.bak
+*.backup
+*~.nib
