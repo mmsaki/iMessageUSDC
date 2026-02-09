@@ -6,78 +6,20 @@
 //
 
 import Foundation
+// Import your new EthereumKit package
+// import EthereumKit
 
-/// Example usage of the JSON-RPC client
-class EthereumService {
-    let client: JSONRPCClient
-    
-    /// Initialize with your RPC endpoint (e.g., Infura, Alchemy, or local node)
-    init(rpcURL: String) {
-        // For production, use environment variables or secure configuration
-        guard let client = JSONRPCClient(rpcURLString: rpcURL) else {
-            fatalError("Invalid RPC URL")
-        }
-        self.client = client
-    }
-    
-    /// Example: Get the latest block number
-    func getLatestBlockNumber() async throws -> Int {
-        let hexString = try await client.eth_blockNumber()
-        return Int(hexString.dropFirst(2), radix: 16) ?? 0
-    }
-    
-    /// Example: Get balance in Wei
-    func getBalance(address: String) async throws -> String {
-        try await client.eth_getBalance(address: address)
-    }
-    
-    /// Example: Get balance in Ether
-    func getBalanceInEther(address: String) async throws -> Double {
-        let weiHex = try await client.eth_getBalance(address: address)
-        let wei = Double(weiHex.dropFirst(2), radix: 16) ?? 0
-        return wei / 1_000_000_000_000_000_000 // Convert Wei to Ether
-    }
-    
-    /// Example: Check USDC balance (ERC-20)
-    func getUSDCBalance(address: String, usdcContractAddress: String) async throws -> String {
-        // ERC-20 balanceOf function signature: balanceOf(address)
-        let functionSelector = "0x70a08231" // keccak256("balanceOf(address)")[:8]
-        let paddedAddress = String(address.dropFirst(2)).padding(toLength: 64, withPad: "0", startingAt: 0)
-        let data = functionSelector + paddedAddress
-        
-        let result = try await client.eth_call(to: usdcContractAddress, data: data)
-        return result
-    }
-    
-    /// Example: Get current gas price in Gwei
-    func getGasPriceInGwei() async throws -> Double {
-        let hexString = try await client.eth_gasPrice()
-        let wei = Double(hexString.dropFirst(2), radix: 16) ?? 0
-        return wei / 1_000_000_000 // Convert Wei to Gwei
-    }
-    
-    /// Example: Get chain ID
-    func getChainId() async throws -> Int {
-        let hexString = try await client.eth_chainId()
-        return Int(hexString.dropFirst(2), radix: 16) ?? 0
-    }
-    
-    /// Example: Send a raw transaction (must be signed)
-    func sendTransaction(signedTxHex: String) async throws -> String {
-        try await client.eth_sendRawTransaction(signedTx: signedTxHex)
-    }
-}
+// MARK: - Usage Examples for iMessage Wallet
 
-// MARK: - Usage Examples
-
-/// Example: Basic usage in a view or controller
+/// Example: Basic usage in your iMessage app
 func exampleUsage() async {
-    // Initialize with your Ethereum node URL
-    // Examples:
-    // - Infura: "https://mainnet.infura.io/v3/YOUR_API_KEY"
-    // - Alchemy: "https://eth-mainnet.g.alchemy.com/v2/YOUR_API_KEY"
-    // - Local node: "http://localhost:8545"
+    // Note: Replace with your actual RPC endpoint
+    // You can get free API keys from:
+    // - Infura: https://infura.io
+    // - Alchemy: https://alchemy.com
     
+    // Uncomment when EthereumKit is added to your project:
+    /*
     let service = EthereumService(rpcURL: "https://mainnet.infura.io/v3/YOUR_API_KEY")
     
     do {
@@ -102,71 +44,108 @@ func exampleUsage() async {
     } catch {
         print("Error: \(error)")
     }
+    */
 }
 
-/// Example: Using the raw client for custom methods
-func exampleRawClientUsage() async {
-    guard let client = JSONRPCClient(rpcURLString: "https://mainnet.infura.io/v3/YOUR_API_KEY") else {
-        print("Invalid URL")
-        return
-    }
+/// Example: Check USDC balance for wallet
+func checkUSDCBalance(walletAddress: String) async {
+    // Uncomment when EthereumKit is added:
+    /*
+    let config = NetworkConfig.polygon // Using Polygon network
+    let service = EthereumService(rpcURL: config.rpcURL)
     
-    Task {
-        do {
-            // Simple call
-            let blockNumber: String = try await client.call(method: "eth_blockNumber")
-            print("Block: \(blockNumber)")
-            
-            // Call with parameters
-            let balance: String = try await client.call(
-                method: "eth_getBalance",
-                params: [
-                    .string("0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"),
-                    .string("latest")
-                ]
+    do {
+        if let usdcAddress = config.usdcAddress {
+            let balance = try await service.getUSDCBalance(
+                address: walletAddress,
+                usdcContractAddress: usdcAddress
             )
-            print("Balance: \(balance)")
-            
-        } catch {
-            print("Error: \(error)")
+            print("USDC Balance: \(balance)")
         }
+    } catch {
+        print("Error fetching balance: \(error)")
     }
+    */
 }
 
-// MARK: - Network Configuration
-
-/// Helper for managing different network configurations
-struct NetworkConfig {
-    let name: String
-    let rpcURL: String
-    let chainId: Int
-    let usdcAddress: String?
+/// Example: Monitor transaction status
+func monitorTransaction(txHash: String) async {
+    // Uncomment when EthereumKit is added:
+    /*
+    let service = EthereumService(rpcURL: "YOUR_RPC_URL")
     
-    static let mainnet = NetworkConfig(
-        name: "Ethereum Mainnet",
-        rpcURL: "https://mainnet.infura.io/v3/YOUR_API_KEY",
-        chainId: 1,
-        usdcAddress: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
-    )
+    // Poll for transaction receipt
+    for _ in 0..<60 { // Try for 60 iterations
+        do {
+            let receipt = try await service.getTransactionReceipt(txHash: txHash)
+            if case .object(let obj) = receipt {
+                if let status = obj["status"] {
+                    print("Transaction completed with status: \(status)")
+                    return
+                }
+            }
+        } catch {
+            print("Receipt not available yet...")
+        }
+        
+        // Wait 2 seconds before trying again
+        try? await Task.sleep(nanoseconds: 2_000_000_000)
+    }
     
-    static let polygon = NetworkConfig(
-        name: "Polygon",
-        rpcURL: "https://polygon-rpc.com",
-        chainId: 137,
-        usdcAddress: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
-    )
-    
-    static let arbitrum = NetworkConfig(
-        name: "Arbitrum One",
-        rpcURL: "https://arb1.arbitrum.io/rpc",
-        chainId: 42161,
-        usdcAddress: "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8"
-    )
-    
-    static let base = NetworkConfig(
-        name: "Base",
-        rpcURL: "https://mainnet.base.org",
-        chainId: 8453,
-        usdcAddress: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
-    )
+    print("Transaction monitoring timeout")
+    */
 }
+
+/// Example: Get gas estimate for USDC transfer
+func estimateUSDCTransferGas(from: String, to: String, amount: String, contractAddress: String) async {
+    // Uncomment when EthereumKit is added:
+    /*
+    let service = EthereumService(rpcURL: "YOUR_RPC_URL")
+    
+    // ERC-20 transfer function: transfer(address,uint256)
+    let functionSelector = "0xa9059cbb" // transfer(address,uint256)
+    let paddedTo = HexUtils.padAddress(to)
+    let paddedAmount = HexUtils.padHex(amount, toLength: 64)
+    let data = functionSelector + paddedTo + paddedAmount
+    
+    do {
+        let gas = try await service.estimateGas(to: contractAddress, data: data, from: from)
+        print("Estimated gas: \(gas)")
+        
+        let gasPrice = try await service.getGasPriceInGwei()
+        print("Gas price: \(gasPrice) Gwei")
+        
+        let cost = Double(gas) * gasPrice / 1_000_000_000 // Convert to ETH
+        print("Estimated cost: \(cost) ETH")
+    } catch {
+        print("Error estimating gas: \(error)")
+    }
+    */
+}
+
+// MARK: - Integration Notes
+
+/*
+ To use EthereumKit in your iMessage app:
+ 
+ 1. Add EthereumKit as a package dependency:
+    - In Xcode: File → Add Package Dependencies
+    - Enter: /path/to/EthereumKit or your git URL
+    
+ 2. Import it in your files:
+    import EthereumKit
+    
+ 3. Initialize the service:
+    let service = EthereumService(rpcURL: "YOUR_RPC_URL")
+    
+ 4. Use it in your wallet operations:
+    - Check balances
+    - Estimate gas costs
+    - Monitor transactions
+    - Read contract data
+    
+ 5. For iMessage integration:
+    - Store transaction data in MSMessage URLs
+    - Use the Transaction struct for encoding/decoding
+    - Display balances and transaction history in your UI
+ */

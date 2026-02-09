@@ -109,8 +109,7 @@ final class OldWalletViewController: UIViewController {
         buttonStack.spacing = 16
         buttonStack.distribution = .fillEqually
         
-        
-        let root = UIStackView(arrangedSubviews: [topBar,UIView(),amountStack,UIView(),buttonStack])
+        let root = UIStackView(arrangedSubviews: [topBar,UIView(), amountStack,UIView(),buttonStack])
         
         root.axis = .vertical
         root.spacing = 16
@@ -137,38 +136,33 @@ final class OldWalletViewController: UIViewController {
     @objc
     private func sendButtonTapped() {
         guard let amountText = amountTextField.text,
-              let amount = Double(amountText) else {
+              let amount = Double(amountText),
+              let conversation = conversation else {
             showAlert("Enter a valid amount")
             return
         }
-        currenShareSession.amount = amount
-        guard let conversation = conversation else {
-            showAlert("No active conversation found")
-            return
-        }
-        
-        if messageSession == nil {messageSession = MSSession()}
+
+        if messageSession == nil { messageSession = MSSession() }
+
         let message = MSMessage(session: messageSession!)
         var components = URLComponents()
         components.scheme = "msaki"
         components.host = "share"
         components.queryItems = [
-            URLQueryItem(name: "amount", value: "\(currenShareSession.amount ?? 0)")
+            URLQueryItem(name: "amount", value: "\(amount)")
         ]
         message.url = components.url
-        
+
         let layout = MSMessageTemplateLayout()
-        
-        layout.caption = "You've received a USDC Share"
-        layout.subcaption = "Tap to enter your recipient info"
+        layout.caption = "Send \(Int(amount)) USDC"  // Sender caption
+        layout.subcaption = "Tap to enter your receiving address"
         message.layout = layout
+
         conversation.insert(message) { error in
-            if let error = error {
-                print("Error sending: \(error)")
-            }
+            if let error = error { print("Error sending message: \(error)") }
         }
+
         amountTextField.text = ""
-        currenShareSession = ShareSession()
     }
     private func showAlert(_ message: String) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
@@ -191,4 +185,3 @@ struct CreateWalletViewController_Previews: PreviewProvider {
     }
 }
 #endif
-

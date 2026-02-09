@@ -4,4 +4,13 @@
    <FileRef
       location = "self:">
    </FileRef>
+   <FileRef
+      location = "group:WebViewController.swift">
+   </FileRef>
+   <FileRef
+      location = "group:WEB_VIEW_GUIDE.md">
+   </FileRef>
+   <FileRef
+      location = "group:WEB_VIEW_IMPLEMENTATION.md">
+   </FileRef>
 </Workspace>

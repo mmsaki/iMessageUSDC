@@ -1,0 +1,56 @@
+┌─────────────────────────────────────────────────────────────┐
+│  🍦 → 💸  BUILD FIX CHECKLIST                               │
+│  Rename Ice Cream Examples to Fix Build Conflicts          │
+└─────────────────────────────────────────────────────────────┘
+
+📋 QUICK CHECKLIST - Rename These 13 Files:
+
+Core (4):
+□ IceCream.swift → IceCream.swift.txt
+□ IceCreamPart.swift → IceCreamPart.swift.txt  
+□ IceCream+Image.swift → IceCream+Image.swift.txt
+□ IceCreamView.swift → IceCreamView.swift.txt
+
+View Controllers (4):
+□ IceCreamsViewController.swift → IceCreamsViewController.swift.txt
+□ BuildIceCreamViewController.swift → BuildIceCreamViewController.swift.txt
+□ CompletedIceCreamViewController.swift → CompletedIceCreamViewController.swift.txt
+□ SendConfirmeViewController.swift → SendConfirmeViewController.swift.txt
+
+Supporting (2):
+□ IceCreamHistory.swift → IceCreamHistory.swift.txt
+□ IceCreamStickerCache.swift → IceCreamStickerCache.swift.txt
+
+Collection View (2):
+□ IceCreamPartCell.swift → IceCreamPartCell.swift.txt
+□ IceCreamPartCollectionViewLayout.swift → IceCreamPartCollectionViewLayout.swift.txt
+
+Optional (1):
+□ MessagesViewControllerFixed.swift → MessagesViewControllerFixed.swift.txt
+
+┌─────────────────────────────────────────────────────────────┐
+│  AFTER RENAMING                                             │
+└─────────────────────────────────────────────────────────────┘
+
+□ Clean Build Folder (⇧⌘K)
+□ Delete Derived Data (optional)
+□ Rebuild (⌘B)
+
+┌─────────────────────────────────────────────────────────────┐
+│  ✅ VERIFY SUCCESS                                          │
+└─────────────────────────────────────────────────────────────┘
+
+□ No build errors
+□ Messages Extension compiles
+□ Can run in simulator
+□ Compact mode works
+□ Expanded mode works
+
+┌─────────────────────────────────────────────────────────────┐
+│  FASTEST METHOD: Run the script                             │
+└─────────────────────────────────────────────────────────────┘
+
+  chmod +x rename_icecream_files.sh
+  ./rename_icecream_files.sh
+
+Done! ✨

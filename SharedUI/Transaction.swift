@@ -8,12 +8,20 @@
 import Foundation
 import Messages
 
-struct Transaction {
+struct Transaction: Codable, Equatable, Hashable {
     var fromChain: Chain?
     var token: Token?
     var amount: Amount?
     var toChain: Chain?
     var toAddress: Address?
+    
+    init(fromChain: Chain? = nil, token: Token? = nil, amount: Amount? = nil, toChain: Chain? = nil, toAddress: Address? = nil) {
+        self.fromChain = fromChain
+        self.token = token
+        self.amount = amount
+        self.toChain = toChain
+        self.toAddress = toAddress
+    }
     
     var isComplete: Bool {
         return fromChain != nil &&
@@ -21,6 +29,13 @@ struct Transaction {
             amount != nil &&
             toChain != nil &&
             toAddress != nil
+    }
+}
+
+extension Transaction: CustomStringConvertible {
+    var description: String {
+        "\(amount?.rawValue ?? "?") \(token?.rawValue ?? "?") from \(fromChain?.rawValue ?? "?") to \(toChain?.rawValue ?? "?") at \(toAddress?.rawValue ?? "?")"
+        
     }
 }
 
@@ -44,7 +59,8 @@ extension Transaction {
         
         for queryItem in queryItems {
             guard let value = queryItem.value else { continue }
-            if let decoded = Chain(rawValue: value), queryItem.name == Chain.queryItemKey {
+            if let decoded = Chain(rawValue: value),
+                queryItem.name == Chain.queryItemKey {
                 if fromChain == nil {
                     fromChain = decoded
                 } else {
@@ -83,27 +99,29 @@ extension Transaction {
     }
 }
 
-enum Chain: String {
-    case ethereum
-    case unichain
-    case arc
-    case base
+struct Chain: Codable, Equatable, Hashable {
+    let rawValue: String
+    init?(rawValue: String) {
+        self.rawValue = rawValue
+    }
     
     static let queryItemKey = "chain"
     var queryItem: URLQueryItem {
-        URLQueryItem(name: Self.queryItemKey, value: rawValue)
+        URLQueryItem(name: Self.queryItemKey, value: String(describing: self))
     }
 }
-enum Token: String {
-    case usdc
-    case eth
+struct Token: Codable, Equatable, Hashable {
+    let rawValue: String
+    init?(rawValue: String) {
+        self.rawValue = rawValue
+    }
     
     static let queryItemKey = "token"
     var queryItem: URLQueryItem {
-        URLQueryItem(name: Self.queryItemKey, value: rawValue)
+        URLQueryItem(name: Self.queryItemKey, value: String(describing: self))
     }
 }
-struct Address: RawRepresentable {
+struct Address: Codable, Equatable, Hashable {
     let rawValue: String
     init?(rawValue: String) {
         self.rawValue = rawValue
@@ -113,7 +131,7 @@ struct Address: RawRepresentable {
         URLQueryItem(name: Self.queryItemKey, value: rawValue)
     }
 }
-struct Amount: RawRepresentable {
+struct Amount: Codable, Equatable, Hashable {
     let rawValue: String
     init?(rawValue: String) {
         self.rawValue = rawValue

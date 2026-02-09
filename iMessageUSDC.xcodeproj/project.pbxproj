@@ -74,10 +74,23 @@
 		9982F5B12F36FE4E00F06A40 /* Exceptions for "SharedUI" folder in "iMessageUSDCPreview" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				BUILD_FIXES_SUMMARY.md,
 				CreateWalletViewController.swift,
+				ENSInputConroller.swift,
+				IMESSAGE_WALLET_GUIDE.md,
+				JSONRPCClient.swift,
+				JSONRPCExamples.swift,
+				MessagesViewControllerFixed.swift,
 				OldWalletView.swift,
 				PrivyAuthViewController.swift,
+				SendConfirmeViewController.swift,
+				TESTING_CHECKLIST.md,
+				Transaction.swift,
+				TransactionViewController.swift,
 				UIKitPreview.swift,
+				WalletService.swift,
+				WalletViewController.swift,
+				WebViewController.swift,
 			);
 			target = 9982F59E2F36FBF700F06A40 /* iMessageUSDCPreview */;
 		};
@@ -273,6 +286,9 @@
 			);
 			mainGroup = 9982F5392F36C2A600F06A40;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				99491FFC2F381B9B00B8E2AF /* XCLocalSwiftPackageReference "../EthereumKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9982F5412F36C2A600F06A40 /* Products */;
 			projectDirPath = "";
@@ -664,6 +680,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		99491FFC2F381B9B00B8E2AF /* XCLocalSwiftPackageReference "../EthereumKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../EthereumKit;
+		};
+/* End XCLocalSwiftPackageReference section */
 	};
 	rootObject = 9982F53A2F36C2A600F06A40 /* Project object */;
 }

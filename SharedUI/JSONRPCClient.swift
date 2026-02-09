@@ -11,7 +11,7 @@ import Foundation
 
 /// Represents a JSON-RPC 2.0 request
 struct JSONRPCRequest: Codable {
-    let jsonrpc: String = "2.0"
+    var jsonrpc: String = "2.0"
     let id: Int
     let method: String
     let params: [JSONValue]
@@ -147,6 +147,18 @@ actor JSONRPCClient {
     /// Convenience initializer with string URL
     init?(rpcURLString: String, session: URLSession = .shared) {
         guard let url = URL(string: rpcURLString) else { return nil }
+        
+        // Validate that the URL has a valid scheme (http or https)
+        guard let scheme = url.scheme?.lowercased(),
+              scheme == "http" || scheme == "https" else {
+            return nil
+        }
+        
+        // Validate that the URL has a host
+        guard url.host != nil else {
+            return nil
+        }
+        
         self.rpcURL = url
         self.session = session
     }
