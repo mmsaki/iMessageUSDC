@@ -1,3 +1,5 @@
+This project is archived. Development moved to [mmsaki/mono](https://github.com/mmsaki/mono)
+
 ![](./screenshot.png)
 
 # iMessageUSDC
