@@ -1,4 +1,6 @@
-This project is archived. Development moved to [mmsaki/mono](https://github.com/mmsaki/mono)
+> [!IMPORTANT]
+>
+> This project is archived. Development moved to [mmsaki/mono](https://github.com/mmsaki/mono)
 
 ![](./screenshot.png)
 
